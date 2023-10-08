@@ -6,6 +6,7 @@ import {Container, Form, Button, Carousel, Badge, Row, Col} from 'react-bootstra
 import { Link, useLocation } from 'react-router-dom';
 
 const PageForm = (props) => {
+    
   /*
    * Creating a state for each parameter of the page.
    * There are two possible cases: 
