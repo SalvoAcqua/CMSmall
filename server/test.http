@@ -1,0 +1,422 @@
+
+## Execute Log In
+POST http://localhost:3000/api/sessions HTTP/1.1
+content-type: application/json
+
+{
+    "username": "giovanniAdmin@gmail.com",
+    "password": "11223344"
+}
+
+###
+
+## Checking if user is still logged-in.
+GET http://localhost:3000/api/sessions/current HTTP/1.1
+
+###
+
+## Execute Log Out.
+DELETE http://localhost:3000/api/sessions/current HTTP/1.1
+
+###
+
+
+
+# ---------------------------------------------------------------------
+
+
+
+
+## Retrieving the name of the website
+GET http://localhost:3000/api/websiteName HTTP/1.1
+
+###
+
+## Updating the name of the website
+PUT http://localhost:3000/api/updateWebsiteName HTTP/1.1
+content-type: application/json
+
+{
+    "newName": "New WebSite"
+}
+
+###
+
+## Retrieving all the published pages
+GET http://localhost:3000/api/publishedPages HTTP/1.1
+
+###
+
+## Retrieving all the pages
+GET http://localhost:3000/api/allPages HTTP/1.1
+
+###
+
+## Retrieving a page by its id
+GET http://localhost:3000/api/pages/5 HTTP/1.1
+
+###
+
+## Create a new page
+POST http://localhost:3000/api/pages HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Roads",
+    "publicationDate": "{{$datetime 'YYYY-MM-DD' -0 d }}",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Create a new page without publicationDate
+POST http://localhost:3000/api/pages HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Roads",
+    "publicationDate": "",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Updates a page.
+PUT http://localhost:3000/api/pages/2 HTTP/1.1
+content-type: application/json
+
+{
+    "page_id": 2,
+    "title": "Roads",
+    "publicationDate": "2023-06-20",
+    "authorEmail": "salvo@gmail.com",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Updates a page without publicationDate.
+PUT http://localhost:3000/api/pages/2 HTTP/1.1
+content-type: application/json
+
+{
+    "page_id": 2,
+    "title": "Roads",
+    "publicationDate": "",
+    "authorEmail": "daniele@gmail.com",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Deletes page.
+DELETE http://localhost:3000/api/pages/6 HTTP/1.1
+
+###
+
+## Retrieving the user emails
+GET http://localhost:3000/api/users HTTP/1.1
+
+
+###
+
+
+
+
+
+
+# ---------- Wrong Requests -------------
+
+## Updating the name of the website with an empty one
+PUT http://localhost:3000/api/updateWebsiteName HTTP/1.1
+content-type: application/json
+
+{
+    "newName": "  "
+}
+
+###
+
+## Get page by an ID that doesn't exist
+GET http://localhost:3000/api/pages/10 HTTP/1.1
+
+###
+
+## Get page by an ID that is not a positive integer
+GET http://localhost:3000/api/pages/-10 HTTP/1.1
+
+###
+
+## Create a new page without title
+POST http://localhost:3000/api/pages HTTP/1.1
+content-type: application/json
+
+{
+    "title": "  ",
+    "author": 2,
+    "publicationDate": "{{$datetime 'YYYY-MM-DD' -0 d }}",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Create a new page with a wrong publication date
+POST http://localhost:3000/api/pages HTTP/1.1
+content-type: application/json
+
+{
+    "title": "The route 66",
+    "author": 2,
+    "publicationDate": "12-06-2023",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Create a new page without header
+POST http://localhost:3000/api/pages HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Roads",
+    "author": 2,
+    "publicationDate": "{{$datetime 'YYYY-MM-DD' -0 d }}",
+    "blocks": [
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Create a new page with publicationDate before the creationDate
+POST http://localhost:3000/api/pages HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Roads",
+    "publicationDate": "{{$datetime 'YYYY-MM-DD' -1 d }}",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Updates a page without title
+PUT http://localhost:3000/api/pages/2 HTTP/1.1
+content-type: application/json
+
+{
+    "page_id": 2,
+    "title": "",
+    "publicationDate": "2023-06-20",
+    "authorEmail": "daniele@gmail.com",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Updates a page with a wrong publication date
+PUT http://localhost:3000/api/pages/2 HTTP/1.1
+content-type: application/json
+
+{
+    "page_id": 2,
+    "title": "The route 66",
+    "publicationDate": "20-06-2023",
+    "authorEmail": "daniele@gmail.com",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Updates a page with a wrong authorEmail
+PUT http://localhost:3000/api/pages/2 HTTP/1.1
+content-type: application/json
+
+{
+    "page_id": 2,
+    "title": "The route 66",
+    "publicationDate": "2023-06-20",
+    "authorEmail": "daniele",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Updates a page without header
+PUT http://localhost:3000/api/pages/2 HTTP/1.1
+content-type: application/json
+
+{
+    "page_id": 2,
+    "title": "Roads",
+    "publicationDate": "2023-06-20",
+    "authorEmail": "daniele@gmail.com",
+    "blocks": [
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Updates a page but id (params) and id (body) mismatches
+PUT http://localhost:3000/api/pages/2 HTTP/1.1
+content-type: application/json
+
+{
+    "page_id": 12,
+    "title": "Roads",
+    "publicationDate": "2023-06-20",
+    "authorEmail": "daniele@gmail.com",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Updates a page that doesn't exist
+PUT http://localhost:3000/api/pages/12 HTTP/1.1
+content-type: application/json
+
+{
+    "page_id": 12,
+    "title": "Roads",
+    "publicationDate": "2023-06-20",
+    "authorEmail": "daniele@gmail.com",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Updates a page with an authorEmail that doesn't exist
+PUT http://localhost:3000/api/pages/2 HTTP/1.1
+content-type: application/json
+
+{
+    "page_id": 2,
+    "title": "Roads",
+    "publicationDate": "2023-06-20",
+    "authorEmail": "user@gmail.com",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Updates my page changing the author but you are not an admin (You have to log in as salvo@gmail.com)
+PUT http://localhost:3000/api/pages/2 HTTP/1.1
+content-type: application/json
+
+{
+    "page_id": 2,
+    "title": "Roads",
+    "publicationDate": "2023-06-20",
+    "authorEmail": "daniele@gmail.com",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Updates the page that is not mine but you are not an admin (You have to log in as salvo@gmail.com)
+PUT http://localhost:3000/api/pages/6 HTTP/1.1
+content-type: application/json
+
+{
+    "page_id": 6,
+    "title": "Roads",
+    "publicationDate": "2023-06-20",
+    "authorEmail": "giovanniAdmin@gmail.com",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Updates a page with a publicationDate before the creationDate.
+PUT http://localhost:3000/api/pages/2 HTTP/1.1
+content-type: application/json
+
+{
+    "page_id": 2,
+    "title": "Roads",
+    "publicationDate": "2023-06-01",
+    "authorEmail": "salvo@gmail.com",
+    "blocks": [
+                {"type": "Header", "content": "The route 66", "position": 1},
+                {"type": "Paragraph", "content": "The most famous road in the world", "position": 2},
+                {"type": "Image", "content": "Route_66.jpeg", "position": 3}
+            ]
+}
+
+###
+
+## Deletes a page that doesn't exist.
+DELETE http://localhost:3000/api/pages/12 HTTP/1.1
+
+###
+
+## Deletes a page that is not mine but you are not an admin (You have to log in as salvo@gmail.com)
+DELETE http://localhost:3000/api/pages/6 HTTP/1.1
+
+###
+
+## Delete a page with an ID that is not a positive integer
+DELETE http://localhost:3000/api/pages/-10 HTTP/1.1
